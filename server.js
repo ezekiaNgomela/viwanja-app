@@ -47,7 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "fallback secret for now" ,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 604800000 }
@@ -106,5 +106,6 @@ app.delete('/api/properties/:id', async (req, res) => {
     await Property.findByIdAndDelete(req.params.id);
     res.json({ success: true });
 });
+
 
 app.listen(3000, () => console.log('Viwanja Cloud Engine Online'));
