@@ -59,9 +59,10 @@ const Components = {
         </div>`,
 
     Footer: () => `
-        <footer class="bg-white border-t border-slate-100 py-20 mt-20 text-center">
+        <footer class="bg-white border-t border-slate-100 py-10 h-40 mt-10 text-center">
             <h2 class="font-black text-2xl tracking-tighter uppercase mb-4 text-slate-900">VIWANJA<span class="text-blue-600">.</span></h2>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-6">Dar Es Salaam, Tanzania</p>
             <a href="/login.html" class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Staff Login</a>
         </footer>`
+
 };
