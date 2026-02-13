@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Dashboard</title>
+</head>
+
+<body class="bg-slate-50 p-6 md:p-12">
+    <div class="max-w-lg mx-auto">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="font-black uppercase text-xl">Inventory</h1><a href="/api/auth/logout"
+                class="text-[10px] font-bold text-red-400 uppercase">Logout</a>
+        </header>
+        <form id="postForm" class="bg-white p-8 border border-slate-200 space-y-5 shadow-sm">
+            <input name="title" placeholder="TITLE" class="w-full border-b p-2 text-xs font-bold outline-none uppercase"
+                required>
+            <input name="price" placeholder="PRICE" class="w-full border-b p-2 text-xs font-bold outline-none uppercase"
+                required>
+            <select name="category" class="w-full border-b p-2 text-xs font-bold outline-none uppercase bg-white">
+                <option value="squares">Square</option>
+                <option value="houses">House</option>
+            </select>
+            <input name="location" placeholder="LOCATION"
+                class="w-full border-b p-2 text-xs font-bold outline-none uppercase" required>
+            <input name="sellerPhone" placeholder="WHATSAPP (255...)"
+                class="w-full border-b p-2 text-xs font-bold outline-none" required>
+            <textarea name="desc" placeholder="DETAILS..."
+                class="w-full border-b p-2 h-24 text-xs font-bold outline-none uppercase" required></textarea>
+            <input type="file" name="media" id="mediaInput" class="text-[10px]" required>
+            <button type="submit" id="subBtn"
+                class="w-full bg-slate-900 text-white py-5 text-[10px] font-black uppercase tracking-widest">Publish
+                Now</button>
+        </form>
+    </div>
+    <script>
+        fetch('/api/admin/check').then(r => r.json()).then(d => { if (!d.loggedIn) window.location.href = '/login.html'; });
+
+        document.getElementById('postForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('subBtn');
+            btn.innerText = "UPLOADING TO CLOUD...";
+            btn.disabled = true;
+
+            const fd = new FormData(e.target);
+            const res = await fetch('/api/properties', { method: 'POST', body: fd });
+            if (res.ok) {
+                alert("PUBLISHED");
+                window.location.reload();
+            } else {
+                alert("ERROR");
+                btn.disabled = false;
+                btn.innerText = "PUBLISH NOW";
+            }
+        };
+    </script>
+</body>
+
+</html>

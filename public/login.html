@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+</head>
+
+<body class="bg-slate-50 flex items-center justify-center h-screen">
+    <div class="bg-white p-10 w-full max-w-sm border border-slate-200">
+        <div id="lView">
+            <h2 class="font-black uppercase mb-6">Login</h2>
+            <input id="le" placeholder="EMAIL" class="w-full border-b p-2 mb-4 text-xs outline-none">
+            <input id="lp" type="password" placeholder="PASSWORD" class="w-full border-b p-2 mb-8 text-xs outline-none">
+            <button onclick="login()"
+                class="w-full bg-black text-white py-4 text-[10px] font-black uppercase">Enter</button>
+            <button onclick="toggle()"
+                class="w-full mt-4 text-[9px] uppercase font-bold text-slate-400">Register</button>
+        </div>
+        <div id="rView" class="hidden space-y-4">
+            <h2 class="font-black uppercase mb-6">Register</h2>
+            <input id="rn" placeholder="NAME" class="w-full border-b p-2 text-xs outline-none uppercase">
+            <input id="re" placeholder="EMAIL" class="w-full border-b p-2 text-xs outline-none">
+            <input id="rp" type="password" placeholder="PASSWORD" class="w-full border-b p-2 text-xs outline-none">
+            <input id="rl" placeholder="LOCATION" class="w-full border-b p-2 text-xs outline-none uppercase">
+            <input id="rpic" type="file" class="text-[10px]">
+            <button onclick="reg()"
+                class="w-full bg-blue-600 text-white py-4 text-[10px] font-black uppercase">Create</button>
+            <button onclick="toggle()" class="w-full mt-4 text-[9px] uppercase text-slate-400">Back</button>
+        </div>
+    </div>
+    <script>
+        function toggle() { document.getElementById('lView').classList.toggle('hidden'); document.getElementById('rView').classList.toggle('hidden'); }
+        async function login() {
+            const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: document.getElementById('le').value, password: document.getElementById('lp').value }) });
+            if (res.ok) window.location.href = '/admin.html'; else alert('Failed');
+        }
+        async function reg() {
+            const fd = new FormData();
+            fd.append('name', document.getElementById('rn').value);
+            fd.append('email', document.getElementById('re').value);
+            fd.append('password', document.getElementById('rp').value);
+            fd.append('location', document.getElementById('rl').value);
+            fd.append('profilePic', document.getElementById('rpic').files[0]);
+            await fetch('/api/auth/register', { method: 'POST', body: fd });
+            toggle();
+        }
+    </script>
+</body>
+
+</html>

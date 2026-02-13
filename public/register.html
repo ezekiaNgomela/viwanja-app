@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<body class="bg-slate-100 flex items-center justify-center h-screen font-sans">
+    <form id="reg-form" class="bg-white p-8 shadow-xl w-80">
+        <h2 class="font-bold mb-4">SETUP ADMIN</h2>
+        <input id="name" placeholder="Name" class="w-full border p-2 mb-2" required>
+        <input id="email" type="email" placeholder="Email" class="w-full border p-2 mb-2" required>
+        <input id="pass" type="password" placeholder="Password" class="w-full border p-2 mb-4" required>
+        <button class="w-full bg-blue-600 text-white py-2 font-bold">CREATE PROFILE</button>
+    </form>
+    <script>
+        document.getElementById('reg-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('pass').value
+            };
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) alert("Admin Created! Now delete register.html and go to login.html");
+        }
+    </script>
+</body>
+
+</html>
