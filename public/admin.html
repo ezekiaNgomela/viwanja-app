@@ -35,25 +35,48 @@
     </div>
     <script>
         fetch('/api/admin/check').then(r => r.json()).then(d => { if (!d.loggedIn) window.location.href = '/login.html'; });
+     
+        
+    document.getElementById('postForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('subBtn');
+    btn.innerText = "UPLOADING TO CLOUD...";
+    btn.disabled = true;
 
-        document.getElementById('postForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('subBtn');
-            btn.innerText = "UPLOADING TO CLOUD...";
-            btn.disabled = true;
+    try {
+        const fd = new FormData(e.target);
+        // We add a signal to stop waiting after 15 seconds
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000); 
 
-            const fd = new FormData(e.target);
-            const res = await fetch('/api/properties', { method: 'POST', body: fd });
-            if (res.ok) {
-                alert("PUBLISHED");
-                window.location.reload();
-            } else {
-                alert("ERROR");
-                btn.disabled = false;
-                btn.innerText = "PUBLISH NOW";
-            }
-        };
+        const res = await fetch('/api/properties', { 
+            method: 'POST', 
+            body: fd,
+            signal: controller.signal 
+        });
+
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+            alert("✅ PUBLISHED SUCCESSFULLY");
+            window.location.reload();
+        } else {
+            const errorText = await res.text();
+            alert("❌ SERVER ERROR: " + errorText);
+            btn.disabled = false;
+            btn.innerText = "PUBLISH NOW";
+        }
+    } catch (err) {
+        console.error("Submit error:", err);
+        alert("❌ CONNECTION TIMEOUT: Your server is not responding. Check your MongoDB IP Whitelist and Render Logs!");
+        btn.disabled = false;
+        btn.innerText = "PUBLISH NOW";
+    }
+};
+      
+          
     </script>
 </body>
+
 
 </html>
