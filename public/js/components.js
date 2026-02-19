@@ -65,10 +65,12 @@ const Components = {
             <a href="/login.html" class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Staff Login</a>
 
             <div class="flex justify-center items-center py-2 px-6>
-               <h3 class="flex justify-center items-center p-2 text-bold>tovuti hii imetengenezwa na </h3>
-               <span class="text-sm flex justify-center item-center px-2 p-2>EZEKIA AK </span>
+               <h3 class="flex justify-center items-center p-2 text-bold>tovuti hii imetengenezwa na delphinus mchunguzi||ezekia ak </h3>
+                 <h2 class="flex justify-center items-center>2026 </h2>
+        
             </div>
         </footer>`
 
 };
+
 
